@@ -1974,7 +1974,6 @@ static void actionDroidBase(DROID *psDroid, DROID_ACTION_DATA *psAction)
 	SDWORD			pbx, pby;
 	WEAPON_STATS		*psWeapStats = getWeaponStats(psDroid, 0);
 	Vector2i                pos;
-	BASE_OBJECT		*psTarget;
 	//added MinRangeResult;
 	UBYTE	i;
 
@@ -2053,7 +2052,7 @@ static void actionDroidBase(DROID *psDroid, DROID_ACTION_DATA *psAction)
 		psDroid->actionPos = psDroid->pos;
 		setDroidActionTarget(psDroid, psAction->psObj, 0);
 
-		if (!isVtolDroid(psDroid) && (psTarget = orderStateObj(psDroid, DORDER_FIRESUPPORT)) && psTarget->type == OBJ_STRUCTURE)
+		if (!isVtolDroid(psDroid) && (orderStateObj(psDroid, DORDER_FIRESUPPORT) != NULL))
 		{
 			psDroid->action = DACTION_ATTACK;		// holding, try attack straightaway
 		}
@@ -2084,6 +2083,7 @@ static void actionDroidBase(DROID *psDroid, DROID_ACTION_DATA *psAction)
 		}
 		else
 		{
+			// 
 			psDroid->action = DACTION_MOVETOATTACK;
 			turnOffMultiMsg(true);
 			moveDroidTo(psDroid, psAction->psObj->pos.x, psAction->psObj->pos.y);
